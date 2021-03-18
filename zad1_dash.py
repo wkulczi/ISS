@@ -34,31 +34,37 @@ app.layout = html.Div(
                     ######################## obwiń w card
                     dbc.Row([
                         dbc.Col(html.Div("h0:"), width=1),
-                        dbc.Col(dbc.Input(type="number", min=0, max=10, step=0.5, bs_size='sm'), width=4,
+                        dbc.Col(dbc.Input(id='h0-input', type="number", min=0, max=10, step=0.5, value=0, bs_size='sm'),
+                                width=4,
                                 className='pl-1'),
                         dbc.Col(html.Div("jednostka"), width=4, className='px-0')
                     ], align="center", className='my-2'),
                     dbc.Row([
                         dbc.Col(html.Div("A:"), width=1),
-                        dbc.Col(dbc.Input(type="number", min=0, max=10, step=0.5, bs_size='sm'), width=4,
+                        dbc.Col(dbc.Input(id='a-input', type="number", min=0, max=10, step=0.5, value=0, bs_size='sm'),
+                                width=4,
                                 className='pl-1'),
                         dbc.Col(html.Div("jednostka"), width=4, className='px-0')
                     ], align="center", className='my-2'),
                     dbc.Row([
-                        dbc.Col(html.Div("Qd"), width=1),
-                        dbc.Col(dbc.Input(type="number", min=0, max=10, step=0.5, bs_size='sm'), width=4,
+                        dbc.Col(html.Div("Tp"), width=1),
+                        dbc.Col(dbc.Input(id='tp-input', type="number", min=0, max=10, step=0.5, value=0, bs_size='sm'),
+                                width=4,
                                 className='pl-1'),
                         dbc.Col(html.Div("jednostka"), width=4, className='px-0')
                     ], align="center", className='my-2'),
                     dbc.Row([
                         dbc.Col(html.Div("β:"), width=1),
-                        dbc.Col(dbc.Input(type="number", min=0, max=10, step=0.5, bs_size='sm'), width=4,
-                                className='pl-1'),
+                        dbc.Col(
+                            dbc.Input(id='beta-input', type="number", min=0, max=10, step=0.5, value=0, bs_size='sm'),
+                            width=4,
+                            className='pl-1'),
                         dbc.Col(html.Div("jednostka"), width=4, className='px-0')
                     ], align="center", className='my-2'),
                     dbc.Row([
-                        dbc.Col(html.Div("Tp:"), width=1),
-                        dbc.Col(dbc.Input(type="number", min=0, max=10, step=0.5, bs_size='sm'), width=4,
+                        dbc.Col(html.Div("Qd:"), width=1),
+                        dbc.Col(dbc.Input(id='qd-input', type="number", min=0, max=10, step=0.2, value=0, bs_size='sm'),
+                                width=4,
                                 className='pl-1'),
                         dbc.Col(html.Div("jednostka"), width=2, className='px-0'),
                         dbc.Col(dbc.Button("Send", className='ml-2', size='sm'))
@@ -111,6 +117,10 @@ app.layout = html.Div(
               Output('start-button', 'disabled'),
               Output('tick-component', 'interval'),
               Output('tick-component', 'disabled'),
+              Output('h0-input', 'disabled'),
+              Output('a-input', 'disabled'),
+              Output('beta-input', 'disabled'),
+              Output('tp-input', 'disabled'),
               Input('start-button', 'n_clicks'),
               Input('stop-button', 'n_clicks'))
 def start_loop(start_nclicks, stop_nclicks):
@@ -118,23 +128,39 @@ def start_loop(start_nclicks, stop_nclicks):
     if ctx.triggered is not None:
         button_id = ctx.triggered[0]['prop_id'].split('.')[0]
         if button_id == 'start-button':
-            #             ustaw period do timera i go odpal
-            #             po'tem callback timera musi zmieniać ten numerek
-            #             inny callback łapie ten numerek, robi krok, wstawia dane do tabeli i do grafu
-            return False, True, 0.25 * 1000, False
+            return False, True, 0.25 * 1000, False, True, True, True, True
         else:
             #            wyłącz timer
-            return True, False, 0, True
+            return True, False, 0, True, False, False, False, False
 
 
 @app.callback(
     Output('table', 'data'),
     Input('tick-component', 'n_intervals'),
-    State('table', 'data'))
-def interval_tick(n_intervals, rows):
+    Input('h0-input', 'value'),
+    Input('a-input', 'value'),
+    Input('beta-input', 'value'),
+    Input('tp-input', 'value'),
+    Input('qd-input', 'value'),
+    State('table', 'data')
+)
+def interval_tick(n_intervals, rows, h0, a, beta, tp, qd):
+    print("{}, {}, {}, {}, {}".format(h0, a, beta, tp,qd))
     if n_intervals > 0:
-        rows.append({'step': n_intervals, 'value': random.randint(0, 22)})
+        if n_intervals == 1:
+            #     policz pierwszy krok
+            hn = count_step(h0, tp, qd, beta, a)
+        else:
+            #     policz reszte krokow
+            hn_1 = rows[-1]['value']
+            hn = count_step(hn_1, tp, qd, beta, a)
+        rows.append({'step': n_intervals, 'value': hn})
     return rows
+
+
+def count_step(hn, Tp, Qdn, beta, A):
+    import math
+    return (((-beta * math.sqrt(hn) + Qdn) * Tp) / A) + hn
 
 
 @app.callback(Output('table', 'page_current'),
