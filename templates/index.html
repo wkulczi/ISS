@@ -1,0 +1,110 @@
+{% extends base %}
+{% block preamble %}
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Custom Style -->
+<link href="dash/static/css/custom.min.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block contents %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-4">
+							Opis inputu
+						</div>
+						<div class="col-md-8">
+							{{ embed(roots.a_spinner) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							Opis inputu
+						</div>
+						<div class="col-md-8">
+							{{ embed(roots.h0_spinner) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+                            Opis inputu
+						</div>
+						<div class="col-md-8">
+                            {{ embed(roots.beta_spinner) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+                            Opis inputu
+						</div>
+						<div class="col-md-8">
+                            {{ embed(roots.qd_spinner) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+                            Opis inputu
+						</div>
+						<div class="col-md-8">
+                            {{ embed(roots.tp_spinner) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+                            Opis inputu
+						</div>
+						<div class="col-md-8">
+                            {{ embed(roots.t_spinner) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="row">
+						<div class="col-md-6">
+							{{ embed(roots.start_button) }}
+						</div>
+						<div class="col-md-6">
+
+							{{ embed(roots.stop_button) }}
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							{{ embed(roots.step_button) }}
+						</div>
+						<div class="col-md-6">
+							{{ embed(roots.clear_button) }}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					Opis projektu
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-12">
+                    {{ embed(roots.bokeh_jinja_figure) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+                    {{ embed(roots.table) }}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
