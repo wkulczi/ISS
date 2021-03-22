@@ -6,26 +6,38 @@
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <!-- Custom Style -->
-
+<style>
+    .grayish_background{background-color: #f1f1f180}
+    .darker_gray{background-color: #8c8c8c}
+    .rounded_corners{border-radius: 5px;}
+    .m-auto{margin:auto}
+    .text-end{text-align: end}
+    .text-start{text-align: start}
+</style>
 {% endblock %}
 
 {% block contents %}
+<body class="grayish_background">
+<nav class="navbar navbar-fixed-top darker_gray">
+<div class="navbar-brand text-white">ISS</div>
+</nav>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 vh-40">
+    <div class="row darker_gray rounded_corners m-2">
+        <div class="col-md-12 vh-40 pl-3 py-3 pr-4">
             {{embed(roots.bokeh_jinja_figure)}}
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-4">
+    <div class="row py-5"></div>
+    <div class="row m-2">
+        <div class="col-md-4 rounded_corners darker_gray px-3 pb-3 pt-4">
             <div class="row">
-                <div class="col-md-2">
-                    Qd
+                <div class="col-md-2 m-auto text-end">
+                    Qd:
                 </div>
                 <div class="col-md-3">
                     {{ embed(roots.qd_spinner) }}
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 m-auto text-start">
                     jednostka
                 </div>
                 <div class="col-md-5">
@@ -34,59 +46,62 @@
             </div>
 
             <div class="row">
-                <div class="col-md-2">
-                    H0
+                <div class="col-md-2 m-auto text-end">
+                    H0:
                 </div>
                 <div class="col-md-3">
                     {{ embed(roots.h0_spinner) }}
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-7 m-auto text-start">
+                    jednostka
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2">
-                    A
+                <div class="col-md-2 m-auto text-end">
+                    A:
                 </div>
                 <div class="col-md-3">
                     {{ embed(roots.a_spinner) }}
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-7 m-auto text-start">
+                    jednostka
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2">
-                    Beta
+                <div class="col-md-2 m-auto text-end">
+                    Beta:
                 </div>
                 <div class="col-md-3">
                     {{ embed(roots.beta_spinner) }}
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-7 m-auto text-start">
+                    jednostka
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2">
-                    Tp
+                <div class="col-md-2 m-auto text-end">
+                    Tp:
                 </div>
                 <div class="col-md-3">
                     {{ embed(roots.tp_spinner) }}
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-7 m-auto text-start">
+                    jednostka
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-2">
-                    T
+                <div class="col-md-2 m-auto text-end">
+                    T:
                 </div>
                 <div class="col-md-3">
                     {{ embed(roots.t_spinner) }}
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-7 m-auto text-start">
+                jednostka
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-2">
+        <div class="col-md-2 rounded_corners darker_gray px-3 pb-3 pt-4 mx-1">
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
@@ -112,11 +127,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2">
-        </div>
-        <div class="col-md-2">
+        <div class="col-md-2 rounded_corners darker_gray px-3 pb-3 pt-4 mx-1">
             {{embed(roots.table)}}
+        </div>
+        <div class="col-md-3">
         </div>
     </div>
 </div>
+</body>
 {% endblock %}

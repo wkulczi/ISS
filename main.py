@@ -34,9 +34,9 @@ t_spinner = Spinner(low=0, value=30, step=0.2,     width_policy="min", name="t_s
 
 p = figure(
     plot_height=120,
-    name="bokeh_jinja_figure", sizing_mode="scale_width")
+    name="bokeh_jinja_figure", sizing_mode="scale_width", toolbar_location="below")
 p.line(source=source, x='x', y='y', line_width=2, alpha=0.7)
-table = DataTable(sizing_mode="stretch_width",name='table', source=source, columns=[TableColumn(field="y", title="H")], editable=True)
+table = DataTable(sizing_mode="stretch_width", height_policy="max", name='table', source=source, columns=[TableColumn(field="y", title="H", sortable = False)],editable=True)
 
 
 def start_button_handler():
@@ -44,7 +44,6 @@ def start_button_handler():
     load_global_values()
 
     start_callbacks()
-    print("start")
 
 
 def load_global_values():
@@ -78,7 +77,6 @@ def calculate_next_h(previous_h):
     global Tp, Qd, Beta, A, T, qd_queue
     if qd_queue:
         Qd = qd_queue.pop()
-    print("Tp: {}, Qd: {}, Beta: {}, A: {}, T: {}, Hn-1: {}".format(Tp, Qd, Beta, A, T, previous_h))
     hn = (((-Beta * math.sqrt(previous_h) + Qd) * Tp) / A) + previous_h
     return float("{:.2f}".format(hn))
 
