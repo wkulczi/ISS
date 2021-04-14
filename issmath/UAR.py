@@ -1,62 +1,91 @@
-import math
+from issmath.error import Error
+from issmath.inflow import Inflow
+from issmath.pid import PID
+from issmath.substance_height import SubstanceHeight
 
 
 class UAR:
-    def __init__(self, h0=1, A=1, Tp=1, t=1, Qdn=1, beta=1, hset=1) -> None:
-        self.set_values(h0, A, Tp, t, Qdn, beta, hset)
-        self.qdn_queue = []
+    """
+          Klasa stanowiąca implementację wszystkich kroków UAR
+
+          ...
+
+          Attributes
+          ----------
+          t : float
+              czas badania [s]
+          Tp : float
+              czas próbkowania [s]
+          A : float
+            pole powierzchni przekroju poprzecznego zbiornika [m^2]
+          h0 : float
+              poziom substancji w zbiorniku w chwili 0 [m]
+          hset : float
+              wartość zadana (wysokości substancji w zbiorniku) [m]
+          beta : float
+              współczynnik wypływu swobodnego ze zbiornika [m(^5/2)/s]
+          kp : float
+              wzmocnienie regulatora
+          Td : float
+              czas wyprzedzenia [s]
+          Ti : float
+              czas zdwojenia [s]
+
+          Methods
+          -------
+          run_step(check_stop_condition=0)
+              odpala jedno przejście wszystkich bloków
+
+              Parameters
+              ----------
+              check_stop_condition : bool, optional
+                      przełącznik decydujący o tym, czy warunek stopu ma być brany pod uwagę
+
+          execute_blocks()
+              wywołuje wszystkie bloki dla jednego przejścia
+
+          calculate_max_steps()
+              oblicza wartość warunku stopu
+
+          should_go()
+              sprawdza czy symulacja nadal powinna trwać
+              :returns boolean
+          """
+
+    def __init__(self, t, Tp, A, h0, hset, beta, kp, Td, Ti) -> None:
+        self.error = Error(hz=hset)
+        self.pid = PID(kp, Tp, Ti, Td)
+        self.inflow = Inflow()
+        self.substance_height = SubstanceHeight(h0, A, Tp, beta)
+        self.N = self.calculate_max_steps(t, Tp)
         self.step_number = 0
 
-    def set_values(self, h0=0, A=0, Tp=0, t=0, Qdn=0, beta=0, hset=0, reset_h=True):
-        if reset_h:
-            self._h = [h0]
-        self._A = A
-        self._Tp = Tp
-        self._t = t
-        self._Qdn = Qdn
-        self._beta = beta
-        self._hset = hset
-        self.N = self.calculate_max_steps()
-
-
-    def calculate_max_steps(self):
-        return self._t / self._Tp
-
-    def get_Qdn(self):
-        if self.qdn_queue:
-            return self.qdn_queue.pop()
+    def run_step(self, check_stop_condition=True):
+        if check_stop_condition:
+            if self.should_go():
+                self.execute_blocks()
+                self.step_number += 1
         else:
-            return self._Qdn
+            self.execute_blocks()
 
-    def set_Qdn(self, newQdn):
-        change_value = self._Qdn - newQdn
-        if abs(change_value) > 0.5:
-            change_step = change_value / 2
-            self.qdn_queue.extend([newQdn.value, self._Qdn + change_step])
-        self._Qdn = newQdn
+    def execute_blocks(self):
+        err, err_sum, err_delta = self.error.calculate(self.substance_height.get_latest_h())
+        un = self.pid.calculate(err, err_sum, err_delta)
+        qdn = self.inflow.calculate(un)
+        self.substance_height.calculate(qdn)
 
-    def get_h(self):
-        return self._h
+    def run_all(self):
+        for x in range(0, self.N):
+            self.run_step()
 
-    def get_previous_h(self):
-        return self._h[-1]
+    def calculate_max_steps(self, t, Tp):
+        return int(t / Tp)
 
-    def count_h_step(self):
-        return (((-self._beta * math.sqrt(self._h[-1]) + self.get_Qdn()) * self._Tp) / self._A) + self._h[-1]
-
-    def count_and_add_h_step(self, return_value=False):
-        if self.step_number < self.N:
-            hn = self.count_h_step()
-            self._h.append(hn)
-            self.step_number += 1
-            if return_value:
-                return hn
-
-    def should_stop(self):
-        return self.step_number >= self.N
-
-    def get_latest_h(self):
-        return self._h[-1]
+    def should_go(self):
+        return self.step_number < self.N
 
     def reset_steps(self):
         self.step_number = 0
+
+    def get_h_values(self):
+        return self.substance_height.get_hs()
