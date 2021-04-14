@@ -5,7 +5,6 @@ from bokeh.plotting import figure
 
 from issmath.UAR import UAR
 
-uar = UAR()
 
 data = {"y": [], "x": []}
 source = ColumnDataSource(data)
