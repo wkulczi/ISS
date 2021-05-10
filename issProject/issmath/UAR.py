@@ -87,5 +87,8 @@ class UAR:
     def reset_steps(self):
         self.step_number = 0
 
-    def get_h_values(self):
+    def get_h_values_dict(self) -> dict:
         return self.substance_height.get_hs_dict()
+
+    def get_h_values_list(self) -> []:
+        return self.substance_height.get_hs_list()

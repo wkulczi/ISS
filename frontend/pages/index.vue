@@ -125,10 +125,11 @@
                   ></v-text-field>
                 </v-col>
               </v-row>
-              <v-row justify="center">
+              <v-row justify="space-around">
                 <v-btn @click="sendAndDrawGraph()">
                   Rozpocznij pracę układu
                 </v-btn>
+                <v-btn @click="clearGraphs()">Wyczyść</v-btn>
               </v-row>
             </v-container>
           </v-form>
@@ -163,7 +164,7 @@ export default {
             },
             title: {
               formatter(seriesName, { dataPointIndex }) {
-                return seriesName + `(${dataPointIndex}) = `
+                return 'h' + `(${dataPointIndex}) = `
               },
             },
           },
@@ -180,6 +181,11 @@ export default {
           },
           toolbar: {
             show: false,
+          },
+        },
+        legend: {
+          labels: {
+            colors: '#ffffff',
           },
         },
         dataLabels: {
@@ -201,21 +207,24 @@ export default {
               colors: '#ffffff',
             },
           },
+          tickAmount: 25,
         },
       },
     }
   },
-  async fetch() {
-    const response = await this.$axios.$post('/api/pid', this.pid_parameters)
-    console.log(response)
-  },
   methods: {
+    async fetchData() {
+      const response = await this.$axios.$post('/api/pid', this.pid_parameters)
+      this.series.push({
+        name: `Badanie ${this.series.length + 1}`,
+        data: response.simulation_values,
+      })
+    },
+    clearGraphs() {
+      this.series = []
+    },
     sendAndDrawGraph() {
-      // this.series.push({
-      //   name: 'h',
-      //   data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
-      // })
-      this.$fetch()
+      this.fetchData()
     },
   },
 }
