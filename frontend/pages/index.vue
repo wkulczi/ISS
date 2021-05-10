@@ -1,93 +1,224 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <div class="text-center">
-        <logo />
-        <vuetify-logo />
-      </div>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>
-            Vuetify is a progressive Material Design component framework for
-            Vue.js. It was designed to empower developers to create amazing
-            applications.
-          </p>
-          <p>
-            For more information on Vuetify, check out the
-            <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation </a
-            >.
-          </p>
-          <p>
-            If you have questions, please join the official
-            <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord </a
-            >.
-          </p>
-          <p>
-            Find a bug? Report it on the github
-            <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board </a
-            >.
-          </p>
-          <p>
-            Thank you for developing with Vuetify and I look forward to bringing
-            more exciting features in the future.
-          </p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3" />
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br />
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" nuxt to="/inspire"> Continue </v-btn>
-        </v-card-actions>
-      </v-card>
+  <v-container fluid>
+    <v-col cols="12">
+      <v-row justify="center" align="center">
+        <v-container style="background: #1e1e1e">
+          <v-card-title class="headline"> Wykres funkcji h(n) </v-card-title>
+          <v-card-text>
+            <apexchart
+              id="chart"
+              type="line"
+              height="350"
+              :options="chartOptions"
+              :series="series"
+            ></apexchart>
+          </v-card-text>
+        </v-container>
+      </v-row>
+      <v-row class="pt-3" justify="center" align="center">
+        <v-container style="background: #1e1e1e">
+          <v-form id="form">
+            <v-container fluid>
+              <v-row>
+                <v-col cols="12" sm="4">
+                  <v-text-field
+                    v-model="pid_parameters.test_duration"
+                    label="Czas badania"
+                    prefix="t ="
+                    suffix="s"
+                    value="0"
+                    min="0"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="4">
+                  <v-text-field
+                    v-model="pid_parameters.height_at_zero"
+                    label="Poziom substancji w zbiorniku w chwili 0"
+                    value="0"
+                    prefix="h(0) = "
+                    suffix="m"
+                    max="150"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="4">
+                  <v-text-field
+                    v-model="pid_parameters.regulator_gain"
+                    label="Wzmocnienie regulatora"
+                    prefix="kp = "
+                    value="0"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12" sm="4">
+                  <!--                  todo validator, nie może być mniejsze niż 0-->
+                  <v-text-field
+                    v-model="pid_parameters.sampling_frequency"
+                    label="Częstotliwość próbkowania"
+                    prefix="Tp = "
+                    suffix="Hz"
+                    value="1"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="4">
+                  <v-text-field
+                    v-model="pid_parameters.height_set"
+                    label="Wartość zadana (poziom substancji w zbiorniku)"
+                    suffix="m"
+                    value="0"
+                    prefix="h* = "
+                    max="150"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="4">
+                  <v-text-field
+                    v-model="pid_parameters.lead_time"
+                    label="Czas wyprzedzenia"
+                    prefix="Td = "
+                    suffix="s"
+                    value="0"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12" sm="4">
+                  <!--                  todo validacja-->
+                  <v-text-field
+                    v-model="pid_parameters.cross_section_tank_area"
+                    label="Pole pow. przekroju poprzecznego zbiornika"
+                    value="1"
+                    prefix="A = "
+                    suffix="m²"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="4">
+                  <v-text-field
+                    v-model="pid_parameters.free_outflow_rate"
+                    label="Współczynnik wypływu swobodnego ze zbiornika"
+                    prefix="β = "
+                    suffix="m^(5/2)/s"
+                    value="0"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="4">
+                  <v-text-field
+                    v-model="pid_parameters.doubling_time"
+                    label="Czas zdwojenia"
+                    prefix="Ti = "
+                    suffix="s"
+                    value="0"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row justify="center">
+                <v-btn @click="sendAndDrawGraph()">
+                  Rozpocznij pracę układu
+                </v-btn>
+              </v-row>
+            </v-container>
+          </v-form>
+        </v-container>
+      </v-row>
     </v-col>
-  </v-row>
+  </v-container>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
-
 export default {
-  components: {
-    Logo,
-    VuetifyLogo,
+  data() {
+    return {
+      pid_parameters: {
+        height_set: 0,
+        height_at_zero: 0,
+        test_duration: 0,
+        regulator_gain: 0,
+        sampling_frequency: 1,
+        lead_time: 0,
+        cross_section_tank_area: 1,
+        free_outflow_rate: 0,
+        doubling_time: 0,
+      },
+      series: [],
+      chartOptions: {
+        tooltip: {
+          theme: 'dark',
+          y: {
+            formatter(value) {
+              return value
+            },
+            title: {
+              formatter(seriesName, { dataPointIndex }) {
+                return seriesName + `(${dataPointIndex}) = `
+              },
+            },
+          },
+          x: {
+            show: false,
+          },
+        },
+        chart: {
+          background: '#1e1e1e',
+          height: 350,
+          type: 'line',
+          zoom: {
+            enabled: false,
+          },
+          toolbar: {
+            show: false,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: 'smooth',
+        },
+        yaxis: {
+          labels: {
+            style: {
+              colors: '#ffffff',
+            },
+          },
+        },
+        xaxis: {
+          labels: {
+            style: {
+              colors: '#ffffff',
+            },
+          },
+        },
+      },
+    }
+  },
+  async fetch() {
+    const response = await this.$axios.$post('/api/pid', this.pid_parameters)
+    console.log(response)
+  },
+  methods: {
+    sendAndDrawGraph() {
+      // this.series.push({
+      //   name: 'h',
+      //   data: [10, 41, 35, 51, 49, 62, 69, 91, 148],
+      // })
+      this.$fetch()
+    },
   },
 }
 </script>
+
+<style></style>

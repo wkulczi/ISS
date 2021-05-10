@@ -12,9 +12,11 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_ff51826c from 'nuxt_plugin_plugin_ff51826c' // Source: ./components/plugin.js (mode: 'all')
-import nuxt_plugin_plugin_73d38964 from 'nuxt_plugin_plugin_73d38964' // Source: ./vuetify/plugin.js (mode: 'all')
-import nuxt_plugin_axios_6b99c8e0 from 'nuxt_plugin_axios_6b99c8e0' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_plugin_214aa76a from 'nuxt_plugin_plugin_214aa76a' // Source: ./components/plugin.js (mode: 'all')
+import nuxt_plugin_plugin_44a9e4c4 from 'nuxt_plugin_plugin_44a9e4c4' // Source: ./vuetify/plugin.js (mode: 'all')
+import nuxt_plugin_axios_54ed2180 from 'nuxt_plugin_axios_54ed2180' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_apexcharts_4f57ad2c from 'nuxt_plugin_apexcharts_4f57ad2c' // Source: ../plugins/apexcharts.js (mode: 'client')
+import nuxt_plugin_bootstrapvue_0776ace4 from 'nuxt_plugin_bootstrapvue_0776ace4' // Source: ../plugins/bootstrap-vue.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -64,7 +66,7 @@ async function createApp(ssrContext, config = {}) {
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"titleTemplate":"%s - frontend","title":"frontend","htmlAttrs":{"lang":"en"},"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:100,300,400,500,700,900&display=swap"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002F@mdi\u002Ffont@latest\u002Fcss\u002Fmaterialdesignicons.min.css"}],"style":[],"script":[]},
+    head: {"titleTemplate":"%s","title":"frontend","htmlAttrs":{"lang":"en"},"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1"},{"hid":"description","name":"description","content":""}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"\u002Ffavicon.ico"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Ffonts.googleapis.com\u002Fcss?family=Roboto:100,300,400,500,700,900&display=swap"},{"rel":"stylesheet","type":"text\u002Fcss","href":"https:\u002F\u002Fcdn.jsdelivr.net\u002Fnpm\u002F@mdi\u002Ffont@latest\u002Fcss\u002Fmaterialdesignicons.min.css"}],"style":[],"script":[]},
 
     router,
     nuxt: {
@@ -178,16 +180,24 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_ff51826c === 'function') {
-    await nuxt_plugin_plugin_ff51826c(app.context, inject)
+  if (typeof nuxt_plugin_plugin_214aa76a === 'function') {
+    await nuxt_plugin_plugin_214aa76a(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_plugin_73d38964 === 'function') {
-    await nuxt_plugin_plugin_73d38964(app.context, inject)
+  if (typeof nuxt_plugin_plugin_44a9e4c4 === 'function') {
+    await nuxt_plugin_plugin_44a9e4c4(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_6b99c8e0 === 'function') {
-    await nuxt_plugin_axios_6b99c8e0(app.context, inject)
+  if (typeof nuxt_plugin_axios_54ed2180 === 'function') {
+    await nuxt_plugin_axios_54ed2180(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_apexcharts_4f57ad2c === 'function') {
+    await nuxt_plugin_apexcharts_4f57ad2c(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_bootstrapvue_0776ace4 === 'function') {
+    await nuxt_plugin_bootstrapvue_0776ace4(app.context, inject)
   }
 
   // Lock enablePreview in context
@@ -199,7 +209,7 @@ async function createApp(ssrContext, config = {}) {
 
   // Wait for async component to be resolved first
   await new Promise((resolve, reject) => {
-    router.push(app.context.route.fullPath, resolve, (err) => {
+    router.replace(app.context.route.fullPath, resolve, (err) => {
       // https://github.com/vuejs/vue-router/blob/v3.4.3/src/util/errors.js
       if (!err._isRouter) return reject(err)
       if (err.type !== 2 /* NavigationFailureType.redirected */) return resolve()

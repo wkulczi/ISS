@@ -88,4 +88,4 @@ class UAR:
         self.step_number = 0
 
     def get_h_values(self):
-        return self.substance_height.get_hs()
+        return self.substance_height.get_hs_dict()

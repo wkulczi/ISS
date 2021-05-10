@@ -2,13 +2,15 @@
   {
     "name": "inspire",
     "path": "/inspire",
-    "component": "/home/wkulczi/Documents/ISS/frontend/pages/inspire.vue",
-    "chunkName": "pages/inspire"
+    "component": "/home/wojti/projects/iss/frontend/pages/inspire.vue",
+    "chunkName": "pages/inspire",
+    "_name": "_64137766"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "/home/wkulczi/Documents/ISS/frontend/pages/index.vue",
-    "chunkName": "pages/index"
+    "component": "/home/wojti/projects/iss/frontend/pages/index.vue",
+    "chunkName": "pages/index",
+    "_name": "_42d59e5e"
   }
 ]

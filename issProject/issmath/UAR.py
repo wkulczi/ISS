@@ -15,7 +15,7 @@ class UAR:
           t : float
               czas badania [s]
           Tp : float
-              czas próbkowania [s]
+              częstotliwość próbkowania [Hz]
           A : float
             pole powierzchni przekroju poprzecznego zbiornika [m^2]
           h0 : float
@@ -52,7 +52,7 @@ class UAR:
               :returns boolean
           """
 
-    def __init__(self, t, Tp, A, h0, hset, beta, kp, Td, Ti) -> None:
+    def __init__(self, t=0, Tp=2, A=1, h0=0, hset=2, beta=0.5, kp=0.2, Td=0.1, Ti=0.1) -> None:
         self.error = Error(hz=hset)
         self.pid = PID(kp, Tp, Ti, Td)
         self.inflow = Inflow()
@@ -79,7 +79,7 @@ class UAR:
             self.run_step()
 
     def calculate_max_steps(self, t, Tp):
-        return int(t / Tp)
+        return int(t * Tp)
 
     def should_go(self):
         return self.step_number < self.N
@@ -88,4 +88,4 @@ class UAR:
         self.step_number = 0
 
     def get_h_values(self):
-        return self.substance_height.get_hs()
+        return self.substance_height.get_hs_dict()

@@ -62,5 +62,8 @@ class SubstanceHeight:
     def get_latest_h(self):
         return self._h[-1]
 
-    def get_hs(self) -> dict:
+    def get_hs_dict(self) -> dict:
         return {i: self._h[i] for i in range(0, len(self._h))}
+
+    def get_hs_list(self) -> list():
+        return self._h

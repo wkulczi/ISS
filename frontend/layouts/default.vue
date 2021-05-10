@@ -1,12 +1,6 @@
 <template>
   <v-app dark>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant="miniVariant"
-      clipped
-      fixed
-      app
-    >
+    <v-navigation-drawer v-model="drawer" clipped fixed app>
       <v-list>
         <v-list-item
           v-for="(item, i) in items"
@@ -15,9 +9,6 @@
           router
           exact
         >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title v-text="item.title" />
           </v-list-item-content>
@@ -26,22 +17,13 @@
     </v-navigation-drawer>
     <v-app-bar clipped-left fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn icon @click.stop="miniVariant = !miniVariant">
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn icon @click.stop="fixed = !fixed">
-        <v-icon>mdi-minus</v-icon>
-      </v-btn>
       <v-toolbar-title v-text="title" />
     </v-app-bar>
     <v-main>
-      <v-container>
+      <div>
         <nuxt />
-      </v-container>
+      </div>
     </v-main>
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
   </v-app>
 </template>
 
@@ -53,18 +35,21 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'mdi-apps',
-          title: 'Welcome',
+          title: 'PID',
           to: '/',
         },
         {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
+          title: 'Fuzzy',
+          to: '/fuzzy',
         },
       ],
       miniVariant: false,
-      title: 'Vuetify.js',
+      title: 'Inteligentne systemy sterowania',
+    }
+  },
+  head() {
+    return {
+      title: 'ISS',
     }
   },
 }

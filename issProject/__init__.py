@@ -1,7 +1,7 @@
 import os
 
-from flask import Flask
-
+from flask import Flask, request
+import UAR from issProject.issmath
 
 def create_app(test_config=None):
     # create and configure the app
@@ -18,4 +18,10 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
+
+    @app.route('/api/pid', methods=["POST"])
+    def plot():
+        uar = UAR()
+        print(request.json)
+        return 'nic'
     return app
