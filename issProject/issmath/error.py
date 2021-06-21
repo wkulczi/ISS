@@ -31,12 +31,12 @@ class Error:
         self._hz = hz
 
     def _calculate_delta(self):
-        if len(self._e) > 2:
+        if len(self._e) >= 2:
             return self._e[-1] - self._e[-2]
-        elif len(self._e) == 1:
-            return self._e[-1]
-        else:
+        elif len(self._e) <= 1:
             return 0
+        # else:
+        #     return 0
 
     def calculate(self, hn):
         en = self._hz - hn
