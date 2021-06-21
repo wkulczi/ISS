@@ -35,8 +35,12 @@ export default {
       fixed: false,
       items: [
         {
-          title: 'PID',
+          title: 'Wypływ swobodny',
           to: '/',
+        },
+        {
+          title: 'PID',
+          to: '/pid',
         },
         {
           title: 'Fuzzy',

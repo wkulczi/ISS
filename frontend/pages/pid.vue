@@ -43,6 +43,18 @@
                     type="number"
                   ></v-text-field>
                 </v-col>
+
+                <v-col cols="12" sm="4">
+                  <v-text-field
+                    v-model="pid_parameters.regulator_gain"
+                    label="Wzmocnienie regulatora"
+                    prefix="kp = "
+                    value="0"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
                 <v-col cols="12" sm="4">
                   <!--                  todo validator, nie może być mniejsze niż 0-->
                   <v-text-field
@@ -54,8 +66,7 @@
                     type="number"
                   ></v-text-field>
                 </v-col>
-              </v-row>
-              <v-row>
+
                 <v-col cols="12" sm="4">
                   <v-text-field
                     v-model="pid_parameters.container_height"
@@ -67,6 +78,19 @@
                     type="number"
                   ></v-text-field>
                 </v-col>
+
+                <v-col cols="12" sm="4">
+                  <v-text-field
+                    v-model="pid_parameters.lead_time"
+                    label="Czas wyprzedzenia"
+                    prefix="Td = "
+                    suffix="s"
+                    value="0"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
                 <v-col cols="12" sm="4">
                   <!--                  todo validacja-->
                   <v-text-field
@@ -78,12 +102,25 @@
                     type="number"
                   ></v-text-field>
                 </v-col>
+
                 <v-col cols="12" sm="4">
                   <v-text-field
-                    v-model="pid_parameters.free_outflow_rate"
-                    label="Współczynnik wypływu swobodnego ze zbiornika"
-                    prefix="β = "
-                    suffix="m^(5/2)/s"
+                    v-model="pid_parameters.height_set"
+                    label="Wartość zadana (poziom substancji w zbiorniku)"
+                    suffix="m"
+                    value="0"
+                    prefix="h* = "
+                    max="150"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12" sm="4">
+                  <v-text-field
+                    v-model="pid_parameters.doubling_time"
+                    label="Czas zdwojenia"
+                    prefix="Ti = "
+                    suffix="s"
                     value="0"
                     type="number"
                   ></v-text-field>
@@ -92,10 +129,10 @@
               <v-row>
                 <v-col cols="12" offset="4" sm="4">
                   <v-text-field
-                    v-model="pid_parameters.inflow_rate"
-                    label="Natężenie dopływu substancji do zbiornika"
-                    prefix="Qd = "
-                    suffix="m^3/s"
+                    v-model="pid_parameters.free_outflow_rate"
+                    label="Współczynnik wypływu swobodnego ze zbiornika"
+                    prefix="β = "
+                    suffix="m^(5/2)/s"
                     value="0"
                     type="number"
                   ></v-text-field>
@@ -120,12 +157,15 @@ export default {
   data() {
     return {
       pid_parameters: {
+        height_set: 0,
         height_at_zero: 0,
         test_duration: 0,
+        regulator_gain: 0,
         sampling_frequency: 1,
-        inflow_rate: 1,
+        lead_time: 0,
         cross_section_tank_area: 1,
         free_outflow_rate: 0,
+        doubling_time: 0,
         container_height: 10,
       },
       series: [],
@@ -188,7 +228,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      const response = await this.$axios.$post('/api/free', this.pid_parameters)
+      const response = await this.$axios.$post('/api/pid', this.pid_parameters)
       if (response.is_error === 1) {
         this.$toast.error(`Błąd obliczeń na ostatnim widocznym kroku`)
       }

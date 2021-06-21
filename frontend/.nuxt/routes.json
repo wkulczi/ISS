@@ -7,6 +7,13 @@
     "_name": "_09fd1406"
   },
   {
+    "name": "pid",
+    "path": "/pid",
+    "component": "/home/wkulczi/Documents/ISS/frontend/pages/pid.vue",
+    "chunkName": "pages/pid",
+    "_name": "_740e7c37"
+  },
+  {
     "name": "index",
     "path": "/",
     "component": "/home/wkulczi/Documents/ISS/frontend/pages/index.vue",

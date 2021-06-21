@@ -52,13 +52,13 @@ class UAR:
               :returns boolean
           """
 
-    def __init__(self, t=0, Tp=2, A=1, h0=0, hset=2, beta=0.5, kp=0.2, Td=0.1, Ti=0.1) -> None:
+    def __init__(self, t=0, Tp=2, A=1, h0=0, hset=2, beta=0.5, kp=0.2, Td=0.1, Ti=0.1, hmax=10) -> None:
         self.error = Error(hz=hset)
         self.pid = PID(kp, Tp, Ti, Td)
         self.inflow = Inflow()
-        self.substance_height = SubstanceHeight(h0, A, Tp, beta)
+        self.substance_height = SubstanceHeight(h0, A, Tp, beta, hmax)
         self.N = self.calculate_max_steps(t, Tp)
-        self.step_number = 0
+        self.step_number = 1
 
     def run_step(self, check_stop_condition=True):
         if check_stop_condition:
@@ -82,7 +82,8 @@ class UAR:
         except ValueError:
             return 1
 
-    def calculate_max_steps(self, t, Tp):
+    @staticmethod
+    def calculate_max_steps(t, Tp):
         return int(t * Tp)
 
     def should_go(self):

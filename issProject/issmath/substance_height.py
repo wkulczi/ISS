@@ -29,7 +29,7 @@ class SubstanceHeight:
        Liczy wysokość słupa substancji w chwili n i zapisuje do historii
    """
 
-    def __init__(self, h0, A, Tp, beta) -> None:
+    def __init__(self, h0, A, Tp, beta, hmax) -> None:
         """
            Parameters
            ----------
@@ -43,19 +43,23 @@ class SubstanceHeight:
                 współczynnik wypływu substancji przez otwór w zbiorniku [(m^(5/2))/s]
            """
         self._h = [h0]
-        self._Tp = Tp
+        self._Tp = 1/Tp
         self._A = A
         self._beta = beta
+        self._hmax = hmax
 
     def calculate(self, Qdn=0, return_value=False):
-        return self._count_and_add_step(Qdn, return_value)
+        self._count_and_add_step(Qdn, return_value)
 
     def _count_h_step(self, Qdn):
         return (((-self._beta * math.sqrt(self._h[-1]) + Qdn) * self._Tp) / self._A) + self._h[-1]
 
     def _count_and_add_step(self, Qdn, return_value=False):
         hn = self._count_h_step(Qdn)
-        self._h.append(hn)
+        if hn > self._hmax:
+            self._h.append(self._hmax)
+        else:
+            self._h.append(hn)
         if return_value:
             return hn
 
