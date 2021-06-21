@@ -44,6 +44,19 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="4">
+                  <!--                  todo validacja-->
+                  <v-text-field
+                    v-model="simulation_parameters.cross_section_tank_area"
+                    label="Pole pow. przekroju poprzecznego zbiornika"
+                    value="1"
+                    prefix="A = "
+                    suffix="m²"
+                    type="number"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12" sm="4">
                   <!--                  todo validator, nie może być mniejsze niż 0-->
                   <v-text-field
                     v-model="simulation_parameters.sampling_frequency"
@@ -51,12 +64,10 @@
                     prefix="Tp = "
                     suffix="Hz"
                     value="1"
-                    min="1"
                     type="number"
                   ></v-text-field>
                 </v-col>
-              </v-row>
-              <v-row>
+
                 <v-col cols="12" sm="4">
                   <v-text-field
                     v-model="simulation_parameters.container_height"
@@ -69,23 +80,13 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <!--                  todo validacja-->
                   <v-text-field
-                    v-model="simulation_parameters.cross_section_tank_area"
-                    label="Pole pow. przekroju poprzecznego zbiornika"
-                    value="1"
-                    prefix="A = "
-                    suffix="m²"
-                    type="number"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="12" sm="4">
-                  <v-text-field
-                    v-model="simulation_parameters.free_outflow_rate"
-                    label="Współczynnik wypływu swobodnego ze zbiornika"
-                    prefix="β = "
-                    suffix="m^(5/2)/s"
+                    v-model="simulation_parameters.height_set"
+                    label="Wartość zadana (poziom substancji w zbiorniku)"
+                    suffix="m"
                     value="0"
+                    prefix="h* = "
+                    max="150"
                     type="number"
                   ></v-text-field>
                 </v-col>
@@ -93,12 +94,11 @@
               <v-row>
                 <v-col cols="12" offset="4" sm="4">
                   <v-text-field
-                    v-model="simulation_parameters.inflow_rate"
-                    label="Natężenie dopływu substancji do zbiornika"
-                    prefix="Qd = "
-                    suffix="m^3/s"
+                    v-model="simulation_parameters.free_outflow_rate"
+                    label="Współczynnik wypływu swobodnego ze zbiornika"
+                    prefix="β = "
+                    suffix="m^(5/2)/s"
                     value="0"
-                    max="250"
                     type="number"
                   ></v-text-field>
                 </v-col>
@@ -124,12 +124,15 @@ export default {
   data() {
     return {
       simulation_parameters: {
+        height_set: 0,
         height_at_zero: 0,
         test_duration: 0,
+        regulator_gain: 0,
         sampling_frequency: 1,
-        inflow_rate: 1,
+        lead_time: 0,
         cross_section_tank_area: 1,
         free_outflow_rate: 0,
+        doubling_time: 0,
         container_height: 10,
       },
       series: [],
@@ -170,7 +173,7 @@ export default {
           enabled: false,
         },
         stroke: {
-          curve: 'smooth',
+          curve: 'stepline',
         },
         yaxis: {
           labels: {
@@ -195,7 +198,7 @@ export default {
       const params = parametersUtil.validateParameters(
         this.simulation_parameters
       )
-      const response = await this.$axios.$post('/api/free', params)
+      const response = await this.$axios.$post('/api/fuzzy', params)
       if (response.is_error === 1) {
         this.$toast.error(`Błąd obliczeń na ostatnim widocznym kroku`)
       }

@@ -22,7 +22,7 @@
               <v-row>
                 <v-col cols="12" sm="4">
                   <v-text-field
-                    v-model="pid_parameters.test_duration"
+                    v-model="simulation_parameters.test_duration"
                     label="Czas badania"
                     prefix="t ="
                     suffix="s"
@@ -34,7 +34,7 @@
 
                 <v-col cols="12" sm="4">
                   <v-text-field
-                    v-model="pid_parameters.height_at_zero"
+                    v-model="simulation_parameters.height_at_zero"
                     label="Poziom substancji w zbiorniku w chwili 0"
                     value="0"
                     prefix="h(0) = "
@@ -46,7 +46,7 @@
 
                 <v-col cols="12" sm="4">
                   <v-text-field
-                    v-model="pid_parameters.regulator_gain"
+                    v-model="simulation_parameters.regulator_gain"
                     label="Wzmocnienie regulatora"
                     prefix="kp = "
                     value="0"
@@ -58,7 +58,7 @@
                 <v-col cols="12" sm="4">
                   <!--                  todo validator, nie może być mniejsze niż 0-->
                   <v-text-field
-                    v-model="pid_parameters.sampling_frequency"
+                    v-model="simulation_parameters.sampling_frequency"
                     label="Częstotliwość próbkowania"
                     prefix="Tp = "
                     suffix="Hz"
@@ -69,7 +69,7 @@
 
                 <v-col cols="12" sm="4">
                   <v-text-field
-                    v-model="pid_parameters.container_height"
+                    v-model="simulation_parameters.container_height"
                     label="Wysokość zbiornika substancji"
                     suffix="m"
                     value="0"
@@ -81,7 +81,7 @@
 
                 <v-col cols="12" sm="4">
                   <v-text-field
-                    v-model="pid_parameters.lead_time"
+                    v-model="simulation_parameters.lead_time"
                     label="Czas wyprzedzenia"
                     prefix="Td = "
                     suffix="s"
@@ -94,7 +94,7 @@
                 <v-col cols="12" sm="4">
                   <!--                  todo validacja-->
                   <v-text-field
-                    v-model="pid_parameters.cross_section_tank_area"
+                    v-model="simulation_parameters.cross_section_tank_area"
                     label="Pole pow. przekroju poprzecznego zbiornika"
                     value="1"
                     prefix="A = "
@@ -105,7 +105,7 @@
 
                 <v-col cols="12" sm="4">
                   <v-text-field
-                    v-model="pid_parameters.height_set"
+                    v-model="simulation_parameters.height_set"
                     label="Wartość zadana (poziom substancji w zbiorniku)"
                     suffix="m"
                     value="0"
@@ -117,7 +117,7 @@
 
                 <v-col cols="12" sm="4">
                   <v-text-field
-                    v-model="pid_parameters.doubling_time"
+                    v-model="simulation_parameters.doubling_time"
                     label="Czas zdwojenia"
                     prefix="Ti = "
                     suffix="s"
@@ -129,7 +129,7 @@
               <v-row>
                 <v-col cols="12" offset="4" sm="4">
                   <v-text-field
-                    v-model="pid_parameters.free_outflow_rate"
+                    v-model="simulation_parameters.free_outflow_rate"
                     label="Współczynnik wypływu swobodnego ze zbiornika"
                     prefix="β = "
                     suffix="m^(5/2)/s"
@@ -153,10 +153,12 @@
 </template>
 
 <script>
+import { parametersUtil } from '@/utils/paramUtils'
+
 export default {
   data() {
     return {
-      pid_parameters: {
+      simulation_parameters: {
         height_set: 0,
         height_at_zero: 0,
         test_duration: 0,
@@ -228,7 +230,10 @@ export default {
   },
   methods: {
     async fetchData() {
-      const response = await this.$axios.$post('/api/pid', this.pid_parameters)
+      const params = parametersUtil.validateParameters(
+        this.simulation_parameters
+      )
+      const response = await this.$axios.$post('/api/pid', params)
       if (response.is_error === 1) {
         this.$toast.error(`Błąd obliczeń na ostatnim widocznym kroku`)
       }

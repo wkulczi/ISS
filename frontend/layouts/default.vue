@@ -43,7 +43,7 @@ export default {
           to: '/pid',
         },
         {
-          title: 'Fuzzy',
+          title: 'Logika rozmyta',
           to: '/fuzzy',
         },
       ],

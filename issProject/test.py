@@ -11,16 +11,27 @@
 # print(x)
 #
 # x.plot.line()
-
-
 import pandas as pd
-from issProject.issmath.WaterFlowSim import WaterFlowSim
 
-waterFlow = WaterFlowSim(t=30, Tp=2, A=1, h0=0, hmax=10, beta=0, Qdn=1)
-waterFlow.run_all()
-values = waterFlow.get_h_values_dict()
+from issmath.FuzzySim import FuzzySim
+uar = FuzzySim(t=30, Tp=2, A=1, h0=0, hset=3, beta=0.75, hmax=10)
+uar.run_all()
+values = uar.get_h_values_dict()
 x = pd.DataFrame.from_dict(values, orient="index")
 
 print(x)
 
 x.plot.line()
+
+#
+# import pandas as pd
+# from issProject.issmath.WaterFlowSim import WaterFlowSim
+#
+# waterFlow = WaterFlowSim(t=30, Tp=2, A=1, h0=0, hmax=10, beta=0, Qdn=1)
+# waterFlow.run_all()
+# values = waterFlow.get_h_values_dict()
+# x = pd.DataFrame.from_dict(values, orient="index")
+#
+# print(x)
+#
+# x.plot.line()

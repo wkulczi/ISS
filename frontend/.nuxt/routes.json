@@ -1,10 +1,10 @@
 [
   {
-    "name": "inspire",
-    "path": "/inspire",
-    "component": "/home/wkulczi/Documents/ISS/frontend/pages/inspire.vue",
-    "chunkName": "pages/inspire",
-    "_name": "_09fd1406"
+    "name": "fuzzy",
+    "path": "/fuzzy",
+    "component": "/home/wkulczi/Documents/ISS/frontend/pages/fuzzy.vue",
+    "chunkName": "pages/fuzzy",
+    "_name": "_68747794"
   },
   {
     "name": "pid",

@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, request, make_response, jsonify
 
+from issProject.issmath.FuzzySim import FuzzySim
 from issProject.issmath.UAR import UAR
 from issProject.issmath.WaterFlowSim import WaterFlowSim
 
@@ -38,23 +39,43 @@ def create_app(test_config=None):
             'simulation_values': uar.get_h_values_list()
         }
         res = make_response(jsonify(response_body), 200)
-        return res @ app.route('/api/pid', methods=["POST"])
+        print(response_body)
+        return res
 
     @app.route('/api/free', methods=["POST"])
     def plot_free():
         payload = request.json
         waterFlowSim = WaterFlowSim(t=float(payload['test_duration']),
-                           Tp=float(payload['sampling_frequency']),
-                           A=float(payload['cross_section_tank_area']),
-                           h0=float(payload['height_at_zero']),
-                           beta=float(payload['free_outflow_rate']),
-                           hmax=float(payload['container_height']),
-                           Qdn=float(payload['inflow_rate']),
-                           )
+                                    Tp=float(payload['sampling_frequency']),
+                                    A=float(payload['cross_section_tank_area']),
+                                    h0=float(payload['height_at_zero']),
+                                    beta=float(payload['free_outflow_rate']),
+                                    hmax=float(payload['container_height']),
+                                    Qdn=float(payload['inflow_rate']),
+                                    )
         result = waterFlowSim.run_all()
         response_body = {
             'is_error': result,
             'simulation_values': waterFlowSim.get_h_values_list()
+        }
+        res = make_response(jsonify(response_body), 200)
+        return res
+
+    @app.route('/api/fuzzy', methods=["POST"])
+    def plot_fuzzy():
+        payload = request.json
+        fuzzyLogicSim = FuzzySim(t=float(payload['test_duration']),
+                                Tp=float(payload['sampling_frequency']),
+                                A=float(payload['cross_section_tank_area']),
+                                h0=float(payload['height_at_zero']),
+                                beta=float(payload['free_outflow_rate']),
+                                hmax=float(payload['container_height']),
+                                hset=float(payload['height_set']),
+                                )
+        result = fuzzyLogicSim.run_all()
+        response_body = {
+            'is_error': result,
+            'simulation_values': fuzzyLogicSim.get_h_values_list()
         }
         res = make_response(jsonify(response_body), 200)
         return res
