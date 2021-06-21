@@ -75,8 +75,12 @@ class UAR:
         self.substance_height.calculate(qdn)
 
     def run_all(self):
-        for x in range(0, self.N):
-            self.run_step()
+        try:
+            for x in range(0, self.N):
+                self.run_step()
+            return 0
+        except ValueError:
+            return 1
 
     def calculate_max_steps(self, t, Tp):
         return int(t * Tp)

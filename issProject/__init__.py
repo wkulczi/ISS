@@ -29,8 +29,9 @@ def create_app(test_config=None):
                   beta=float(payload['free_outflow_rate']),
                   kp=float(payload['regulator_gain']), Td=float(payload['lead_time']),
                   Ti=float(payload['doubling_time']))
-        uar.run_all()
+        result = uar.run_all()
         response_body = {
+            'is_error': result,
             'simulation_values': uar.get_h_values_list()
         }
         res = make_response(jsonify(response_body), 200)

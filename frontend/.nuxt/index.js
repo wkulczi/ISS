@@ -15,6 +15,7 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 import nuxt_plugin_plugin_ff51826c from 'nuxt_plugin_plugin_ff51826c' // Source: ./components/plugin.js (mode: 'all')
 import nuxt_plugin_plugin_73d38964 from 'nuxt_plugin_plugin_73d38964' // Source: ./vuetify/plugin.js (mode: 'all')
 import nuxt_plugin_axios_6b99c8e0 from 'nuxt_plugin_axios_6b99c8e0' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_toast_37ca158f from 'nuxt_plugin_toast_37ca158f' // Source: ./toast.js (mode: 'client')
 import nuxt_plugin_apexcharts_4f57ad2c from 'nuxt_plugin_apexcharts_4f57ad2c' // Source: ../plugins/apexcharts.js (mode: 'client')
 import nuxt_plugin_bootstrapvue_0776ace4 from 'nuxt_plugin_bootstrapvue_0776ace4' // Source: ../plugins/bootstrap-vue.js (mode: 'all')
 
@@ -190,6 +191,10 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_axios_6b99c8e0 === 'function') {
     await nuxt_plugin_axios_6b99c8e0(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_toast_37ca158f === 'function') {
+    await nuxt_plugin_toast_37ca158f(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_apexcharts_4f57ad2c === 'function') {

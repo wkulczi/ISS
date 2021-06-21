@@ -215,6 +215,9 @@ export default {
   methods: {
     async fetchData() {
       const response = await this.$axios.$post('/api/pid', this.pid_parameters)
+      if (response.is_error === 1){
+        this.$toast.error(`Błąd obliczeń na ostatnim widocznym kroku`)
+      }
       this.series.push({
         name: `Badanie ${this.series.length + 1}`,
         data: response.simulation_values,
