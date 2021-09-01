@@ -48,13 +48,13 @@ class SubstanceHeight:
         self._beta = beta
         self._hmax = hmax
 
-    def calculate(self, Qdn=0, return_value=False):
-        self._count_and_add_step(Qdn, return_value)
-
     def _count_h_step(self, Qdn):
-        return (((-self._beta * math.sqrt(self._h[-1]) + Qdn) * self._Tp) / self._A) + self._h[-1]
+        h1=self._h[-1]
+        Q0=self._beta*math.sqrt(h1)
+        h=(Qdn-Q0)*(self._Tp/self._A)+h1
+        return h
 
-    def _count_and_add_step(self, Qdn, return_value=False):
+    def calculate(self, Qdn, return_value=False):
         hn = self._count_h_step(Qdn)
         if hn > self._hmax:
             self._h.append(self._hmax)

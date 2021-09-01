@@ -12,6 +12,7 @@ class FuzzySim:
         self.substance_height = SubstanceHeight(h0, A, Tp, beta, hmax)
         self.N = self.calculate_max_steps(t, Tp)
         self.step_number = 1
+        self.un2 = 0  # poprzednia wartość uchybu
 
     def run_step(self, check_stop_condition=True):
         if check_stop_condition:
@@ -24,8 +25,9 @@ class FuzzySim:
     def execute_blocks(self):
         err, err_sum, err_delta = self.error.calculate(self.substance_height.get_latest_h())
         un = self.simulator.calculate(err, err_sum, err_delta)
-        qdn = self.inflow.calculate(un)
+        qdn = un# tu inflow cos moze bd trzeba zaimplementowac
         self.substance_height.calculate(qdn)
+        self.un2 = un
 
     def run_all(self):
         try:

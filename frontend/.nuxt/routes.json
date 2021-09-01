@@ -2,22 +2,19 @@
   {
     "name": "fuzzy",
     "path": "/fuzzy",
-    "component": "/home/wkulczi/Documents/ISS/frontend/pages/fuzzy.vue",
-    "chunkName": "pages/fuzzy",
-    "_name": "_68747794"
+    "component": "/mnt/d/studia/1sem/ISS/ISS-main/frontend/pages/fuzzy.vue",
+    "chunkName": "pages/fuzzy"
   },
   {
     "name": "pid",
     "path": "/pid",
-    "component": "/home/wkulczi/Documents/ISS/frontend/pages/pid.vue",
-    "chunkName": "pages/pid",
-    "_name": "_740e7c37"
+    "component": "/mnt/d/studia/1sem/ISS/ISS-main/frontend/pages/pid.vue",
+    "chunkName": "pages/pid"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "/home/wkulczi/Documents/ISS/frontend/pages/index.vue",
-    "chunkName": "pages/index",
-    "_name": "_01bde2fe"
+    "component": "/mnt/d/studia/1sem/ISS/ISS-main/frontend/pages/index.vue",
+    "chunkName": "pages/index"
   }
 ]

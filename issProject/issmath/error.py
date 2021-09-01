@@ -27,7 +27,7 @@ class Error:
                   różnicę uchybów regulacji e(n) - e(n-1)
       """
     def __init__(self, hz):
-        self._e = []
+        self._e = [] # tablica uchybów
         self._hz = hz
 
     def _calculate_delta(self):

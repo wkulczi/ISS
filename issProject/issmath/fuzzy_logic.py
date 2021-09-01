@@ -32,6 +32,13 @@ class FuzzyLogic:
         self.simulation.compute()
         return self.simulation.output['output']
 
+# uchyb i zmiana uczybu to jedna baza reguł i wynik tego działania daje dla klolejnej bazy opis kolumny,czy wiersza i w ten sposób przez nawiasowanie można to sobie też
+# żeby nie budować 3wymiarowej bazy reguł. takie dwustopniowe mapowanie
+# uchyb = wartosc zadana - wartosc zmierzona / współczynnik jakis np jesli 10 to przestrzen numeryczna [-10,10].
+# można zostawić 0,10, jak jest tereaz, ale wtedy 0-5 ma zamykac zawor 5-10 otweirac
+# na razie korzystamy z bledu i roznicy z poprzednim. mamy pd, wystarczy sumowac i dostaniemy pi
+# to co wyznaczy reg rozmyty nie jest sygnałem sterującym i nie z tego wyliczamy natezenie dopływu,
+# tylko dodajemy to do wartosci poprzedniej i dopiero z tego wyznaczamy natezenie dopływu. i tak mamy regulator fuzzy pi
     def define_fuzzy_rules(self):
         rule0 = ctrl.Rule(antecedent=((self.error['du'] & self.delta['du']) |
                                       (self.error['du'] & self.delta['su']) |

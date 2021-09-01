@@ -56,7 +56,7 @@ class UAR:
         self.error = Error(hz=hset)
         self.pid = PID(kp, Tp, Ti, Td)
         self.inflow = Inflow()
-        self.substance_height = SubstanceHeight(h0, A, Tp, beta, hmax)
+        self.substance_height = SubstanceHeight(h0, A*hmax, Tp, beta, hmax)
         self.N = self.calculate_max_steps(t, Tp)
         self.step_number = 1
 
@@ -71,7 +71,7 @@ class UAR:
     def execute_blocks(self):
         err, err_sum, err_delta = self.error.calculate(self.substance_height.get_latest_h())
         un = self.pid.calculate(err, err_sum, err_delta)
-        qdn = self.inflow.calculate(un)
+        qdn = un
         self.substance_height.calculate(qdn)
 
     def run_all(self):

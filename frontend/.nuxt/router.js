@@ -4,9 +4,9 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _68747794 = () => interopDefault(import('../pages/fuzzy.vue' /* webpackChunkName: "pages/fuzzy" */))
-const _740e7c37 = () => interopDefault(import('../pages/pid.vue' /* webpackChunkName: "pages/pid" */))
-const _01bde2fe = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _4492a3e8 = () => interopDefault(import('../pages/fuzzy.vue' /* webpackChunkName: "pages/fuzzy" */))
+const _3993a069 = () => interopDefault(import('../pages/pid.vue' /* webpackChunkName: "pages/pid" */))
+const _7a8ac2b0 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -21,15 +21,15 @@ export const routerOptions = {
 
   routes: [{
     path: "/fuzzy",
-    component: _68747794,
+    component: _4492a3e8,
     name: "fuzzy"
   }, {
     path: "/pid",
-    component: _740e7c37,
+    component: _3993a069,
     name: "pid"
   }, {
     path: "/",
-    component: _01bde2fe,
+    component: _7a8ac2b0,
     name: "index"
   }],
 
