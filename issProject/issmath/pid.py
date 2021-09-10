@@ -1,11 +1,7 @@
-# wielkość sterująca - PID
-
 class PID:
     """
        Klasa do wyznaczenia wartości wielkości sterującej
-
        ...
-
        Attributes
        ----------
        kp : float
@@ -30,7 +26,7 @@ class PID:
         self._Td = Td
         self._I = 1
 
-    def calculate(self, en, en_sum, en_delta):
+    def calculate(self, en, en_delta):
         """
            Parameters
            ----------
