@@ -1,5 +1,4 @@
 class Error:
-    #uchyb = różnica obecnego i pożądanego poziomu wody
     """
       Klasa do wyznaczenia wartości uchybu regulacji
       ...
@@ -7,25 +6,11 @@ class Error:
       ----------
       hz : float
           zadana wysokość słupa substancji w zbiorniku
-
-      Methods
-      -------
-      calculate(hn=0)
-          Parameters
-          ----------
-          Qdn : float
-                  wysokość słupa cieczy w chwili n
-          :returns
-          -----------
-          en:
-                  wartość uchybu regulacji z chwili n
-          en_sum:
-                  sumę wszystkich uchybów regulacji od chwili 0 do n
-          en_delta:
-                  różnicę uchybów regulacji e(n) - e(n-1)
+      e : table
+          tablica uchybów = różnica obecnego i pożądanego poziomu wody
       """
     def __init__(self, hz):
-        self._e = [] # tablica uchybów
+        self._e = []
         self._hz = hz
 
     def _calculate_delta(self):

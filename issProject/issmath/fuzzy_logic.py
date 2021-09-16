@@ -1,5 +1,4 @@
 import numpy as np
-import skfuzzy
 import skfuzzy.control as ctrl
 
 

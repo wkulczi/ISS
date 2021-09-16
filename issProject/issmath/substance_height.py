@@ -1,7 +1,6 @@
 # poziom substancji w zbiorniku
 import math
 
-
 class SubstanceHeight:
     """
    Klasa do policzenia wysokości słupa substancji w zbiorniku
@@ -29,7 +28,7 @@ class SubstanceHeight:
        Liczy wysokość słupa substancji w chwili n i zapisuje do historii
    """
 
-    def __init__(self, h0, A, Tp, beta, hmax) -> None:
+    def __init__(self, h0, A, Tp, beta:float, hmax) -> None:
         """
            Parameters
            ----------

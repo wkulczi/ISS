@@ -1,5 +1,3 @@
-import math
-
 from issProject.issmath.substance_height import SubstanceHeight
 
 

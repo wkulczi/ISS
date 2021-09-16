@@ -12,8 +12,8 @@ class FuzzySim:
         self.substance_height = SubstanceHeight(h0, A, Tp, beta, hmax)
         self.N = int(t * Tp)  # ilosc krokow
         self.step_number = 1
-        self._beta=beta
-        self._hmax=hmax
+        self._beta = beta
+        self._hmax = hmax
 
     def run_step(self, check_stop_condition=True):
         if check_stop_condition:
@@ -29,8 +29,8 @@ class FuzzySim:
         qdn = self.calculate_qdn(un)
         self.substance_height.calculate(qdn)
 
-    def calculate_qdn(self,output):
-        qdn=output+self._beta*math.sqrt(self.substance_height.get_latest_h()) #Q0
+    def calculate_qdn(self, output):
+        qdn = output + self._beta * math.sqrt(self.substance_height.get_latest_h())  # Q0
         if qdn < 0:
             qdn = 0
         elif qdn > self._hmax:
