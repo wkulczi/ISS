@@ -12,10 +12,10 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_ff51826c from 'nuxt_plugin_plugin_ff51826c' // Source: ./components/plugin.js (mode: 'all')
-import nuxt_plugin_plugin_73d38964 from 'nuxt_plugin_plugin_73d38964' // Source: ./vuetify/plugin.js (mode: 'all')
-import nuxt_plugin_axios_6b99c8e0 from 'nuxt_plugin_axios_6b99c8e0' // Source: ./axios.js (mode: 'all')
-import nuxt_plugin_toast_37ca158f from 'nuxt_plugin_toast_37ca158f' // Source: ./toast.js (mode: 'client')
+import nuxt_plugin_plugin_7d6b4548 from 'nuxt_plugin_plugin_7d6b4548' // Source: ./components/plugin.js (mode: 'all')
+import nuxt_plugin_plugin_51c577dc from 'nuxt_plugin_plugin_51c577dc' // Source: ./vuetify/plugin.js (mode: 'all')
+import nuxt_plugin_axios_69e8b272 from 'nuxt_plugin_axios_69e8b272' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_toast_3618ff21 from 'nuxt_plugin_toast_3618ff21' // Source: ./toast.js (mode: 'client')
 import nuxt_plugin_apexcharts_4f57ad2c from 'nuxt_plugin_apexcharts_4f57ad2c' // Source: ../plugins/apexcharts.js (mode: 'client')
 import nuxt_plugin_bootstrapvue_0776ace4 from 'nuxt_plugin_bootstrapvue_0776ace4' // Source: ../plugins/bootstrap-vue.js (mode: 'all')
 
@@ -181,20 +181,20 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_ff51826c === 'function') {
-    await nuxt_plugin_plugin_ff51826c(app.context, inject)
+  if (typeof nuxt_plugin_plugin_7d6b4548 === 'function') {
+    await nuxt_plugin_plugin_7d6b4548(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_plugin_73d38964 === 'function') {
-    await nuxt_plugin_plugin_73d38964(app.context, inject)
+  if (typeof nuxt_plugin_plugin_51c577dc === 'function') {
+    await nuxt_plugin_plugin_51c577dc(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_6b99c8e0 === 'function') {
-    await nuxt_plugin_axios_6b99c8e0(app.context, inject)
+  if (typeof nuxt_plugin_axios_69e8b272 === 'function') {
+    await nuxt_plugin_axios_69e8b272(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_toast_37ca158f === 'function') {
-    await nuxt_plugin_toast_37ca158f(app.context, inject)
+  if (process.client && typeof nuxt_plugin_toast_3618ff21 === 'function') {
+    await nuxt_plugin_toast_3618ff21(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_apexcharts_4f57ad2c === 'function') {

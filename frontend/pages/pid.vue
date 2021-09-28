@@ -209,6 +209,7 @@ export default {
         },
         stroke: {
           curve: 'smooth',
+          width: 1,
         },
         yaxis: {
           labels: {

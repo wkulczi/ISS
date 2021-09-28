@@ -174,6 +174,7 @@ export default {
         },
         stroke: {
           curve: 'stepline',
+          width: 1,
         },
         yaxis: {
           labels: {
